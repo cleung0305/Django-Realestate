@@ -17,15 +17,15 @@ class Photo(models.Model):
     default = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.name} - {self.id}'
+        return f'{self.name}'
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if not self.name:
             if self.default:
-                self.name = f'{self.album.title} - main'
+                self.name = f'{self.album.title} - {self.id} - main'
             else:
-                self.name = self.album.title
+                self.name = f'{self.album.title} - {self.id}'
         super().save(*args, **kwargs)
         
 class Listing(models.Model):
