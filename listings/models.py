@@ -7,6 +7,9 @@ class PhotoAlbum(models.Model):
     def default(self):
         return self.photos.filter(default=True).first()
 
+    def thumbnails(self):
+        return self.photos.filter(default=False)
+
     def __str__(self):
         return self.title
 
@@ -19,13 +22,19 @@ class Photo(models.Model):
     def __str__(self):
         return f'{self.name}'
 
+    def _generate_name(self):
+        num = 1
+        unique_name = '{}-{}'.format(self.album.title, num)
+        while Photo.objects.filter(name=unique_name).exists():
+            num += 1
+            unique_name = '{}-{}'.format(self.album.title, num)
+        return unique_name
+
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
         if not self.name:
+            self.name = self._generate_name()
             if self.default:
-                self.name = f'{self.album.title} - {self.id} - main'
-            else:
-                self.name = f'{self.album.title} - {self.id}'
+                self.name += '- main'
         super().save(*args, **kwargs)
         
 class Listing(models.Model):
@@ -42,8 +51,8 @@ class Listing(models.Model):
     bathrooms = models.DecimalField(max_digits=2, decimal_places=1)
     garage = models.IntegerField(default=0)
     sqft = models.IntegerField()
-    lot_size = models.DecimalField(max_digits=5, decimal_places=1)
-    album = models.OneToOneField(PhotoAlbum, related_name='album', on_delete=models.CASCADE, blank=True, null=True)
+    lot_size = models.DecimalField(max_digits=5, decimal_places=0)
+    album = models.OneToOneField(PhotoAlbum, on_delete=models.CASCADE, blank=True, null=True)
     is_published = models.BooleanField(default=True)
     list_date = models.DateTimeField(default=datetime.now, blank=True)
 

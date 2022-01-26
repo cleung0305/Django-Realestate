@@ -4,25 +4,13 @@ from django.urls import reverse
 
 from .models import Listing, PhotoAlbum, Photo
 
-def linkify(field_name):
-    """
-    Converts a foreign key value into clickable links.
-    
-    If field_name is 'parent', link text will be str(obj.parent)
-    Link will be admin url for the admin url for obj.parent.id:change
-    """
-    def _linkify(obj):
-        linked_obj = getattr(obj, field_name)
-        if linked_obj is None:
-            return '-'
-        app_label = linked_obj._meta.app_label
-        model_name = linked_obj._meta.model_name
-        view_name = f'admin:{app_label}_{model_name}_change'
-        link_url = reverse(view_name, args=[linked_obj.pk])
-        return format_html('<a href="{}">{}</a>', link_url, linked_obj)
-
-    _linkify.short_description = field_name  # Sets column name
-    return _linkify
+class ListingAdmin(admin.ModelAdmin):
+    list_display = ['id', 'title', 'price', 'list_date', 'is_published', 'realtor']
+    list_display_links = ['id', 'title']
+    list_filter = ['realtor',]
+    list_editable = ['is_published']
+    search_fields = ['title', 'street_address', 'city', 'state', 'zip', 'price']
+    list_per_page = 25
 
 class PhotoAlbumAdmin(admin.ModelAdmin):
     model = PhotoAlbum
@@ -30,8 +18,9 @@ class PhotoAlbumAdmin(admin.ModelAdmin):
 
     @admin.display(description='Main Photo')
     def get_main_link(self, obj):
-        link_url = reverse('admin:listings_photo_change', args=[obj.default().id])
-        return format_html('<a href="{}">{}</a>', link_url, obj.default().name)
+        if obj.photos.filter(default=True):
+            link_url = reverse('admin:listings_photo_change', args=[obj.default().id])
+            return format_html('<a href="{}">{}</a>', link_url, obj.default().name)
 
     @admin.display(description='Photos')
     def get_photo_link(self, obj):
@@ -42,8 +31,10 @@ class PhotoAlbumAdmin(admin.ModelAdmin):
             urllist += html
         return format_html(urllist)
 
+class PhotoAdmin(admin.ModelAdmin):
+    list_display = ['name', 'album', 'default']
 
-admin.site.register(Listing)
+admin.site.register(Listing, ListingAdmin)
 admin.site.register(PhotoAlbum, PhotoAlbumAdmin)
-admin.site.register(Photo)
+admin.site.register(Photo, PhotoAdmin)
 
