@@ -99,15 +99,21 @@
                 </li>
               {% endif %}
 
-              {% for page in listings.paginator.page_range %}
-                {% if listings.number == page %}
+              {% for i in page_range %}
+                {% if listings.number == i %}
                   <li class="page-item active">
-                    <a class="page-link">{{ page }}</a>
+                    <a class="page-link">{{ i }}</a>
                   </li>
                 {% else %}
-                  <li class="page-item">
-                    <a href="?page={{ page }}" class="page-link">{{ page }}</a>
-                  </li>
+                  {% if i == listings.paginator.ELLIPSIS %}
+                    <li class="page-item">
+                      <a onclick="go_to_page({{listings.number}})" class="page-link">{{ i }}</a>
+                    </li>
+                  {% else %}
+                    <li class="page-item">
+                      <a href="?page={{ i }}" class="page-link">{{ i }}</a>
+                    </li>
+                  {% endif %}
                 {% endif %}
               {% endfor %}
 
@@ -115,7 +121,7 @@
                 <li class="page-item">
                   <a href="?page={{ listings.next_page_number }}" class="page-link">&raquo;</a>
                 </li>
-                {% else %}
+              {% else %}
                 <li class="page-item disabled">
                   <a class="page-link">&raquo;</a>
                 </li>
@@ -126,4 +132,18 @@
       </div>
     </div>
   </section>
+{% endblock %}
+
+{% block extrascripts %} 
+  <script>
+    function go_to_page(current_page){
+      let destination_page = prompt("Go to page:", current_page);
+      if (destination_page == null || destination_page == "" || isNaN(destination_page)){
+        //do nothing
+      }
+      else{
+        location.href = "?page=" + destination_page;
+      }
+    }
+  </script>
 {% endblock %}

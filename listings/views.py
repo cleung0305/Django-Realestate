@@ -6,13 +6,14 @@ from .models import Listing, PhotoAlbum, Photo
 
 # Create your views here.
 def listings(request):
-    listings = Listing.objects.all()
-    paginator = Paginator(listings, 3)
-    page = request.GET.get('page')
+    listings = Listing.objects.order_by('-list_date').filter(is_published=True)
+    paginator = Paginator(listings, 12)
+    page = request.GET.get('page', 1)
     paged_listings = paginator.get_page(page)
-    # paged_listings = paginator.get_elided_page_range(page, on_each_side=1, on_ends=1)
+    page_range = paginator.get_elided_page_range(number=page, on_each_side=1, on_ends=1)
     context = {
-        'listings': paged_listings
+        'listings': paged_listings,
+        'page_range': page_range
     }
     return render(request, 'listings/listings.html', context)
 
