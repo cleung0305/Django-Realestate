@@ -20,6 +20,9 @@
     <!--Nav Bar-->
     {% include 'partials/_navbar.html' %}
 
+    <!--Alerts-->
+    <!-- {% include 'partials/_alerts.html' %} -->
+
     {% block content %} {% endblock %}
 
     <!--Footer-->
@@ -28,6 +31,11 @@
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/lightbox.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
+    <!-- <script>
+        $("#alert").fadeTo(4000, 500).slideUp(500, function(){
+            $("#alert").slideUp(500);
+        });
+    </script> -->
     {% block extrascripts %} {% endblock %}
 </body>
 </html>
