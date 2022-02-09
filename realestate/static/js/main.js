@@ -3,7 +3,7 @@ document.querySelector('.year').innerHTML = date.getFullYear();
 
 var url = $(location).attr('pathname');
 
-if(!url.includes('register') && !url.includes('login')){
+if(!url.includes('register')){
     setTimeout(function() {
         $('#message').fadeOut('slow');
     }, 5000);
