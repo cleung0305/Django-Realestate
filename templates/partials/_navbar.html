@@ -23,13 +23,17 @@
 
             <ul class="navbar-nav ml-auto">
                 {% if request.user.is_authenticated %}
-                    <li class="nav-item {% if 'register' in request.path %} active {% endif %} mr-3">
-                        <a class="nav-link" href="{% url 'accounts:register' %}">
+                    <li class="nav-item {% if 'dashboard' in request.path %} active {% endif %} mr-3">
+                        <a class="nav-link" href="{% url 'accounts:dashboard' %}">
                         <i class="fas fa-user"></i> {{ request.user.username }}</a>
                     </li>
-                    <li class="nav-item {% if 'login' in request.path %} active {% endif %} mr-3">
-                        <a class="nav-link" href="{% url 'accounts:login' %}">
-                        <i class="fas fa-sign-in-alt"></i> Logout</a>
+                    <li class="nav-item mr-3">
+                        <a class="nav-link" href="javascript:{document.getElementById('logout').submit()}">
+                        <i class="fas fa-sign-out-alt"></i> Logout</a>
+                        <form action="{% url 'accounts:logout' %}" method="POST" id="logout">
+                            {% csrf_token %}
+                            <input type="hidden">
+                        </form>
                     </li>
                 {% else %}
                     <li class="nav-item {% if 'register' in request.path %} active {% endif %} mr-3">
