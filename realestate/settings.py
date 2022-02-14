@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'listings',
     'realtors',
     'accounts',
+    'contacts',
 ]
 
 MIDDLEWARE = [
@@ -152,3 +153,9 @@ MESSAGE_TAGS = {
 }
 
 AUTHENTICATION_BACKENDS = ('accounts.custombackends.EmailBackend',)
+
+EMAIL_USE_TLS = True  
+EMAIL_HOST = 'smtp.gmail.com'  
+EMAIL_HOST_USER = 'loklok12614@gmail.com'  
+EMAIL_HOST_PASSWORD = 'lokLOK12614'  
+EMAIL_PORT = 587  
