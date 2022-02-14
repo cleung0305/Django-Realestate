@@ -154,8 +154,9 @@ MESSAGE_TAGS = {
 
 AUTHENTICATION_BACKENDS = ('accounts.custombackends.EmailBackend',)
 
+from .email_key import email, email_pw
 EMAIL_USE_TLS = True  
 EMAIL_HOST = 'smtp.gmail.com'  
-EMAIL_HOST_USER = 'loklok12614@gmail.com'  
-EMAIL_HOST_PASSWORD = 'lokLOK12614'  
+EMAIL_HOST_USER = email
+EMAIL_HOST_PASSWORD = email_pw  
 EMAIL_PORT = 587  
