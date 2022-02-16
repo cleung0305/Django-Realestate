@@ -1,0 +1,11 @@
+{% autoescape off %}  
+<p>Hi {{ name }},</p>
+
+<p>We have recieved your inquiry for listing <a href="http://{{ domain }}{% url 'listings:listing' listing_id %}">{{ listing }}</a>.
+    A real estate agent will contact with you soon.</p>
+
+<p>Thank you for your interest!</p>
+
+<p>Best Regards,</p>
+<p>BT Real Estate</p>
+{% endautoescape %} 

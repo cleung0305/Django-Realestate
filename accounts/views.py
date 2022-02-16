@@ -107,7 +107,10 @@ def login(request):
         error = False
 
         user = auth.authenticate(username=username, password=password)
-
+        if not user.is_active:
+            error = True
+            messages.error(request, 'Registration not complete, please check your inbox for verification email.')
+            return redirect('accounts:login')
         if user is not None and error is False:
             auth.login(request, user)
             messages.success(request, 'You are now logged in')

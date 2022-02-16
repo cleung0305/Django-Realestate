@@ -8,7 +8,7 @@ class Contact(models.Model):
     user_id = models.IntegerField(blank=True)
     name = models.CharField(max_length=200)
     email = models.EmailField(max_length=200)
-    phone = models.CharField(max_length=20)
+    phone = models.CharField(max_length=20, blank=True)
     massage = models.TextField(blank=True)
     contact_date = models.DateTimeField(default=datetime.now, blank=True)
 
