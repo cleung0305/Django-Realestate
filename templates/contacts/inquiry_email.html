@@ -1,11 +1,75 @@
+{% load static %}
+{% load humanize %}
+
 {% autoescape off %}  
-<p>Hi {{ name }},</p>
+<section id="listing" class="py-4">
+    <div class="container">
+        <div>
+            <div>
+              <!-- Home Main Image -->
+              <img src="cid:listing_img" alt="img" class="img-main img-fluid mb-3" style="display:block" width="50%">
+              
+              <!-- Fields -->
+              <div>
+                <div>
+                  <ul>
+                    <li>
+                        Asking Price:
+                      <span>${{ listing_model.price | intcomma }}</span>
+                    </li>
+                    <li>
+                        Bedrooms:
+                      <span>{{ listing_model.bedrooms }}</span>
+                    </li>
+                    <li>
+                         Bathrooms:
+                      <span>{{ listing_model.bathrooms }}</span>
+                    </li>
+                    <li>
+                       Garage:
+                      <span>{{ listing_model.garage }}
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <ul>
+                    <li>
+                       Square Feet:
+                      <span>{{ listing_model.sqft | intcomma }}</span>
+                    </li>
+                    <li>
+                       Lot Size:
+                      <span>{{ listing_model.lot_size | intcomma }} sqft
+                      </span>
+                    </li>
+                    <li>
+                       Listing Date:
+                      <span>{{ listing_model.list_date }}</span>
+                    </li>
+                    <li>
+                       Realtor:
+                      <span>{{ listing_model.realtor }}
+                      </span>
+                    </li>
+    
+    
+                  </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+  </section>
+<div>
+    <p>Hi {{ name }},</p>
 
-<p>We have recieved your inquiry for listing <a href="http://{{ domain }}{% url 'listings:listing' listing_id %}">{{ listing }}</a>.
-    A real estate agent will contact with you soon.</p>
+    <p>We have recieved your inquiry for listing <a href="http://{{ domain }}{% url 'listings:listing' listing_id %}">{{ listing_model.title }}</a>.
+        A real estate agent will contact with you soon.</p>
 
-<p>Thank you for your interest!</p>
+    <p>Thank you for your interest!</p>
 
-<p>Best Regards,</p>
-<p>BT Real Estate</p>
+    <p>Best Regards,</p>
+    <p>BT Real Estate</p>
+</div>
 {% endautoescape %} 
