@@ -3,7 +3,9 @@ from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
+from contacts.models import Contact
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text  
@@ -127,8 +129,13 @@ def logout(request):
         messages.success(request, 'You are now logged out')
     return redirect('pages:index')
 
+@login_required(login_url='accounts:login')
 def dashboard(request):
-    return render(request, 'accounts/dashboard.html')
+    user_contacts = Contact.objects.order_by('-contact_date').filter(user_id=request.user.id)
+    context = {
+        'contacts': user_contacts,
+    }
+    return render(request, 'accounts/dashboard.html', context)
 
 def activate(request, uidb64, token):
     User = get_user_model()

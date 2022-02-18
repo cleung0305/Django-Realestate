@@ -33,40 +33,38 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <h2>Welcome John</h2>
+          <h2>Welcome {% if user.first_name %}{{ user.first_name }}{% else %}User#{{ user.id }}{% endif %}</h2>
+          {% if contacts %}
           <p>Here are the property listings that you have inquired about</p>
-          <table class="table">
-            <thead>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Property</th>
+                  <th scope="col">Date</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for contact in contacts %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ contact.listing }}</td>
+                    <td>{{ contact.contact_date }}</td>
+                    <td>
+                      <a class="btn btn-light py-0" href="{% url 'listings:listing' contact.listing_id %}">View Listing</a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <table class="table">
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">Property</th>
-                <th></th>
+                <td>You don't have any inquiry</td>
               </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>22</td>
-                <td>45 Drivewood Circle</td>
-                <td>
-                  <a class="btn btn-light" href="#">View Listing</a>
-                </td>
-              </tr>
-              <tr>
-                <td>43</td>
-                <td>22 Westbrook rd</td>
-                <td>
-                  <a class="btn btn-light" href="#">View Listing</a>
-                </td>
-              </tr>
-              <tr>
-                <td>31</td>
-                <td>12 Samson Ave</td>
-                <td>
-                  <a class="btn btn-light" href="#">View Listing</a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+            </table>
+          {% endif %}
         </div>
       </div>
     </div>
