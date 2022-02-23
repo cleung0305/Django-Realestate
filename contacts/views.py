@@ -64,9 +64,9 @@ def contact(request):
             'listing': listing,
             'domain': domain,
         })
-        realtor_email = EmailMessage(realtor_mail_subject, realtor_mail_message, to=[realtor_email])
-        realtor_email.content_subtype = 'html'
-        realtor_email.send(fail_silently=False)
+        realtor_send_email = EmailMessage(realtor_mail_subject, realtor_mail_message, to=[realtor_email])
+        realtor_send_email.content_subtype = 'html'
+        realtor_send_email.send(fail_silently=False)
 
         messages.success(request, 'Your inquiry has been submitted, a realtor will get back to you soon.')
         return redirect('listings:listing', listing_id=listing_id)
