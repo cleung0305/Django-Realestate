@@ -64,7 +64,7 @@ def contact(request):
             'listing': listing,
             'domain': domain,
         })
-        realtor_email = EmailMessage(realtor_mail_subject, realtor_mail_message, to=[])
+        realtor_email = EmailMessage(realtor_mail_subject, realtor_mail_message, to=[realtor_email])
         realtor_email.content_subtype = 'html'
         realtor_email.send(fail_silently=False)
 
