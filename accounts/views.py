@@ -56,6 +56,8 @@ from .token import account_activation_token
 
 # Register V.2 (Email Verification required)
 def register(request):
+    if request.user.is_authenticated:
+        return redirect('pages:index')
     if request.method == 'POST':
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
@@ -108,13 +110,14 @@ def login(request):
         password = request.POST['password']
         error = False
 
-        user = auth.authenticate(username=username, password=password)
+        user = User.objects.get(username=username)
         if not user.is_active:
             error = True
             messages.error(request, 'Registration not complete, please check your inbox for verification email.')
             return redirect('accounts:login')
         if user is not None and error is False:
-            auth.login(request, user)
+            auth_user = auth.authenticate(username=username, password=password)
+            auth.login(request, auth_user)
             messages.success(request, 'You are now logged in')
             return redirect('pages:index')
         else:
