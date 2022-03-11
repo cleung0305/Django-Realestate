@@ -19,4 +19,9 @@ realestate/settings.py
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
 # in your Git repository. Update and uncomment the following line accordingly.
+<<<<<<< HEAD
 # <django-project-name>/staticfiles/
+=======
+# <django-project-name>/staticfiles/sendgrid.env
+sendgrid.env
+>>>>>>> b8943325b78006b608b38c227876a286a3c182ce

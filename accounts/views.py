@@ -11,6 +11,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text  
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode  
 from django.template.loader import render_to_string
+from django.core.exceptions import ObjectDoesNotExist
 
 from .token import account_activation_token
 
@@ -96,7 +97,7 @@ def register(request):
             })
             to_email = email
             email = EmailMessage(
-                mail_subject, message, to=[to_email]
+                mail_subject, message, to=[to_email], from_email="loksdjango@gmail.com"
             )
             email.send()
             messages.success(request, 'Please confirm your email address to complete the registration')
@@ -110,17 +111,21 @@ def login(request):
         password = request.POST['password']
         error = False
 
-        user = User.objects.get(username=username)
-        if not user.is_active:
-            error = True
-            messages.error(request, 'Registration not complete, please check your inbox for verification email.')
-            return redirect('accounts:login')
-        if user is not None and error is False:
-            auth_user = auth.authenticate(username=username, password=password)
-            auth.login(request, auth_user)
-            messages.success(request, 'You are now logged in')
-            return redirect('pages:index')
-        else:
+        try:
+            user = User.objects.get(username=username)
+            if not user.is_active:
+                error = True
+                messages.error(request, 'Registration not complete, please check your inbox for verification email.')
+                return redirect('accounts:login')
+            if user is not None and error is False:
+                auth_user = auth.authenticate(username=username, password=password)
+                auth.login(request, auth_user)
+                messages.success(request, 'You are now logged in')
+                return redirect('pages:index')
+            else:
+                messages.error(request, 'Invalid Credentials')
+                return redirect('accounts:login')
+        except ObjectDoesNotExist:
             messages.error(request, 'Invalid Credentials')
             return redirect('accounts:login')
     else:
