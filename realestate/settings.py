@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-from .s_key import key
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,9 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = key
+SECRET_KEY = 'django-insecure-hnrwva&!cs1g^s#^fc42tt&h(xhqs%*nl5*i8ttlarydiyxmx6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -87,13 +84,12 @@ WSGI_APPLICATION = 'realestate.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'lokredb',
+        'NAME': 'lokre_prod',
         'USER': 'postgres',
-        'PASSWORD': 'loklok12',
+        'PASSWORD': 'p123',
         'HOST': 'localhost'
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -154,16 +150,7 @@ MESSAGE_TAGS = {
 
 AUTHENTICATION_BACKENDS = ('accounts.custombackends.EmailBackend',)
 
-# Email Config
-from .email_key import email, email_pw
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = email
-EMAIL_HOST_PASSWORD = email_pw  
-
-
 try:
-    from .local_settings.py import *
+    from .local_settings import *
 except ImportError:
     pass
