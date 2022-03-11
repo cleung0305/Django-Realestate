@@ -155,13 +155,22 @@ MESSAGE_TAGS = {
 AUTHENTICATION_BACKENDS = ('accounts.custombackends.EmailBackend',)
 
 # Email Config
-from .email_key import email, email_pw
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = email
-EMAIL_HOST_PASSWORD = email_pw  
+# from .email_key import email, email_pw
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = email
+# EMAIL_HOST_PASSWORD = email_pw  
 
+# Email Config sendgrid
+import os
+SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey' # this is exactly the value 'apikey'
+EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 try:
     from .local_settings.py import *

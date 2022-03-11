@@ -47,7 +47,7 @@ def contact(request):
         img.add_header('Content-ID', '<listing_img>')
         img.add_header('Content-Disposition', 'inline', filename="listing_img")
         
-        email = EmailMultiAlternatives(mail_subject, None, to=[email])
+        email = EmailMultiAlternatives(mail_subject, None, to=[email], from_email="loksdjango@gmail.com")
         email.attach_alternative(html_body, "text/html")
         email.mixed_subtype = 'related'
         email.attach(img)
@@ -64,7 +64,7 @@ def contact(request):
             'listing': listing,
             'domain': domain,
         })
-        realtor_send_email = EmailMessage(realtor_mail_subject, realtor_mail_message, to=[realtor.email])
+        realtor_send_email = EmailMessage(realtor_mail_subject, realtor_mail_message, to=[realtor.email], from_email="loksdjango@gmail.com")
         realtor_send_email.content_subtype = 'html'
         realtor_send_email.send(fail_silently=False)
 

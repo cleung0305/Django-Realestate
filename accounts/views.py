@@ -96,7 +96,7 @@ def register(request):
             })
             to_email = email
             email = EmailMessage(
-                mail_subject, message, to=[to_email]
+                mail_subject, message, to=[to_email], from_email="loksdjango@gmail.com"
             )
             email.send()
             messages.success(request, 'Please confirm your email address to complete the registration')
