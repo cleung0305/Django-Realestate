@@ -14,7 +14,7 @@ venv
 /static
 s_key.py
 email_key.py
-settings.py
+realestate/settings.py
 /.vscode
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
